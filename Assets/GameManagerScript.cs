@@ -8,6 +8,9 @@ public class GameManagerScript : MonoBehaviour
     // 配列の宣言
     public GameObject playerPrefab;
     public GameObject boxPrefab;
+    public GameObject goalPrefab;
+    public GameObject clearText;
+    public GameObject particlePrefab;
     int[,] map;
     GameObject[,] field;
 
@@ -24,6 +27,7 @@ public class GameManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Screen.SetResolution(1280, 720, false);
         map = new int[,]{
         { 0, 0, 0, 0, 0 },
         { 0, 3, 1, 3, 0 },
@@ -56,6 +60,14 @@ public class GameManagerScript : MonoBehaviour
                         Quaternion.identity
                     );
                 }
+                if (map[y, x] == 3)
+                {
+                    field[y, x] = Instantiate(
+                        goalPrefab,
+                        new Vector3(x, map.GetLength(0) - y, 0),
+                        Quaternion.identity
+                    );
+                }
             }
         }
 
@@ -81,26 +93,37 @@ public class GameManagerScript : MonoBehaviour
         {
             Vector2Int playerIndex = GetPlayerIndex();
             MoveNumber(playerIndex, playerIndex + new Vector2Int(1, 0));
+            if (IsCleard())
+            {
+                clearText.SetActive(true);
+            }
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Vector2Int playerIndex = GetPlayerIndex();
             MoveNumber(playerIndex, playerIndex + new Vector2Int(-1, 0));
+            if (IsCleard())
+            {
+                clearText.SetActive(true);
+            }
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             Vector2Int playerIndex = GetPlayerIndex();
             MoveNumber(playerIndex, playerIndex + new Vector2Int(0, -1));
+            if (IsCleard())
+            {
+                clearText.SetActive(true);
+            }
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             Vector2Int playerIndex = GetPlayerIndex();
             MoveNumber(playerIndex, playerIndex + new Vector2Int(0, 1));
-        }
-
-        if (IsCleard())
-        {
-            Debug.Log("Clear");
+            if (IsCleard())
+            {
+                clearText.SetActive(true);
+            }
         }
     }
 
@@ -158,8 +181,14 @@ public class GameManagerScript : MonoBehaviour
             if (!success) { return false; }
         }
 
+        // パーティクルの生成
+        Vector3 spawnPosition = field[moveFrom.y, moveFrom.x].transform.position;
+        Instantiate(particlePrefab, spawnPosition, Quaternion.identity);
+
         field[moveTo.y, moveTo.x] = field[moveFrom.y, moveFrom.x];
-        field[moveFrom.y, moveFrom.x].transform.position = new Vector3(moveTo.x, map.GetLength(0) - moveTo.y, 0);
+        //field[moveFrom.y, moveFrom.x].transform.position = new Vector3(moveTo.x, map.GetLength(0) - moveTo.y, 0);
+        Vector3 moveToPosition = new Vector3(moveTo.x, map.GetLength(0) - moveTo.y, 0);
+        field[moveFrom.y, moveFrom.x].GetComponent<Move>().MoveTo(moveToPosition);
         field[moveFrom.y, moveFrom.x] = null;
         return true;
     }

@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 1cf6f4c6e6e0518419839d3f5448dd99, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -156,6 +156,7 @@ MonoBehaviour:
   boxPrefab: {fileID: 30454703337792006, guid: d06c932cae2cde641a7f5a541eb4ae91, type: 3}
   goalPrefab: {fileID: 2340744640591787359, guid: d1b3442f026fb7f4e841bb7de149fee1, type: 3}
   clearText: {fileID: 123259030}
+  particlePrefab: {fileID: 1726992108158838784, guid: b57506da9983dec429cccd81693b1bc5, type: 3}
 --- !u!4 &112657650
 Transform:
   m_ObjectHideFlags: 0
